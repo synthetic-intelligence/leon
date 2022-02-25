@@ -75,7 +75,7 @@
     "fastify-static": "^4.5.0",
     "fluent-ffmpeg": "^2.1.2",
     "googleapis": "^67.1.1",
-    "ibm-watson": "^6.1.1",
+    "ibm-watson": "^6.2.2",
     "moment-timezone": "^0.5.33",
     "node-wav": "0.0.2",
     "socket.io": "^4.4.0",
