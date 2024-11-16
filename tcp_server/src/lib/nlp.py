@@ -27,7 +27,7 @@ spacy_model_mapping = {
     }
 }
 
-geonamescache = GeonamesCache()
+geonamescache = GeonamesCache(min_city_population=5000)
 countries = geonamescache.get_countries()
 cities = geonamescache.get_cities()
 
@@ -85,30 +85,31 @@ def extract_spacy_entities(utterance: str) -> list[dict]:
                         delete_unneeded_country_data(resolution['data'])
                         break
 
-                city_population = 0
-                for city in cities:
-                    alternatenames = [name.casefold() for name in cities[city]['alternatenames']]
-                    if cities[city]['name'].casefold() == ent.text.casefold() or ent.text.casefold() in alternatenames:
-                        if city_population == 0:
-                            entity += ':city'
+                if ':country' not in entity:
+                    city_population = 0
+                    for city in cities:
+                        alternatenames = [name.casefold() for name in cities[city]['alternatenames']]
+                        if cities[city]['name'].casefold() == ent.text.casefold() or ent.text.casefold() in alternatenames:
+                            if city_population == 0:
+                                entity += ':city'
 
-                        if cities[city]['population'] > city_population:
-                            resolution['data'] = copy.deepcopy(cities[city])
-                            city_population = cities[city]['population']
+                            if cities[city]['population'] > city_population:
+                                resolution['data'] = copy.deepcopy(cities[city])
+                                city_population = cities[city]['population']
 
-                            for country in countries:
-                                if countries[country]['iso'] == cities[city]['countrycode']:
-                                    resolution['data']['country'] = copy.deepcopy(countries[country])
-                                    break
-                            try:
-                                del resolution['data']['geonameid']
-                                del resolution['data']['alternatenames']
-                                del resolution['data']['admin1code']
-                                delete_unneeded_country_data(resolution['data']['country'])
-                            except BaseException:
-                                pass
-                        else:
-                            continue
+                                for country in countries:
+                                    if countries[country]['iso'] == cities[city]['countrycode']:
+                                        resolution['data']['country'] = copy.deepcopy(countries[country])
+                                        break
+                                try:
+                                    del resolution['data']['geonameid']
+                                    del resolution['data']['alternatenames']
+                                    del resolution['data']['admin1code']
+                                    delete_unneeded_country_data(resolution['data']['country'])
+                                except BaseException:
+                                    pass
+                            else:
+                                continue
 
             entities.append({
                 'start': ent.start_char,
