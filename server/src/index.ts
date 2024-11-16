@@ -37,8 +37,8 @@ import { LogHelper } from '@/helpers/log-helper'
     .filter(
       (p) =>
         p.cmd?.includes(PYTHON_TCP_SERVER_BIN_PATH) ||
-        // PyTorch thread from the TCP server
-        p.name?.includes('pt_main_thread') ||
+        // PyTorch thread from the TCP server (from binary, not from npm start:tcp-server command)
+        (p.name?.includes('pt_main_thread') && !p.cmd?.includes('main.py')) ||
         (p.cmd === process.title && p.pid !== process.pid)
     )
     .forEach((p) => {
@@ -46,7 +46,13 @@ import { LogHelper } from '@/helpers/log-helper'
       LogHelper.info(`Killed existing Leon process: ${p.pid}`)
     })
 
-  // Start the Python TCP server
+  /**
+   * Start the Python TCP server
+   *
+   * If running "npm start:tcp-server en" cmd,
+   * then can manually delete process from task manager to avoid
+   * to have 2 TCP servers running at the same time
+   */
   global.pythonTCPServerProcess = spawn(
     `${PYTHON_TCP_SERVER_BIN_PATH} ${LangHelper.getShortCode(LEON_LANG)}`,
     {
