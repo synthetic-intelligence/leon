@@ -32,10 +32,12 @@ const TCP_SERVER_WARNINGS_TO_IGNORE = [
   '00:00<',
   'CUDNN_STATUS_NOT_SUPPORTED',
   'cls.seq_relationship.weight',
-  'ALSA lib'
+  'ALSA lib',
+  'jack',
+  'server request channel'
 ]
 export function shouldIgnoreTCPServerError(error: string): boolean {
   return TCP_SERVER_WARNINGS_TO_IGNORE.some((warning) =>
-    error.includes(warning)
+    error.toLowerCase().includes(warning.toLowerCase())
   )
 }

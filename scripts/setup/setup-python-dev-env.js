@@ -146,7 +146,7 @@ SPACY_MODELS.set('fr', {
    * @see https://stackoverflow.com/a/76972265/1768162
    * @see https://docs.nvidia.com/deeplearning/cudnn/latest/reference/support-matrix.html
    */
-  const installPytorch = async () => {
+  const installPyTorch = async () => {
     const logInfo =
       osType === OSTypes.MacOS
         ? 'Installing PyTorch...'
@@ -176,6 +176,33 @@ SPACY_MODELS.set('fr', {
           ? 'Failed to install PyTorch'
           : 'Failed to install PyTorch with CUDA support'
       LogHelper.error(`${errorLogInfo}: ${e}`)
+      process.exit(1)
+    }
+  }
+  /**
+   * NLTK data are used for MeloTTS
+   *
+   * @see https://www.nltk.org/data.html
+   */
+  const downloadNLTKData = async () => {
+    LogHelper.info('Downloading NLTK data...')
+
+    try {
+      await command('pipenv run python -m nltk.downloader cmudict', {
+        shell: true,
+        stdio: 'inherit'
+      })
+      await command(
+        'pipenv run python -m nltk.downloader averaged_perceptron_tagger_eng',
+        {
+          shell: true,
+          stdio: 'inherit'
+        }
+      )
+
+      LogHelper.success('NLTK data downloaded')
+    } catch (e) {
+      LogHelper.error(`Failed to download NLTK data: ${e}`)
       process.exit(1)
     }
   }
@@ -228,7 +255,8 @@ SPACY_MODELS.set('fr', {
       LogHelper.success('Python packages installed')
 
       if (givenSetupTarget === 'tcp-server') {
-        await installPytorch()
+        await installPyTorch()
+        await downloadNLTKData()
       }
     } catch (e) {
       if (hasDotVenv) {
