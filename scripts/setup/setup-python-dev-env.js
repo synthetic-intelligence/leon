@@ -164,9 +164,18 @@ SPACY_MODELS.set('fr', {
         shell: true,
         stdio: 'inherit'
       })
-      LogHelper.success('PyTorch with CUDA support installed')
+
+      const successLogInfo =
+        osType === OSTypes.MacOS
+          ? 'PyTorch installed'
+          : 'PyTorch with CUDA support installed'
+      LogHelper.success(successLogInfo)
     } catch (e) {
-      LogHelper.error(`Failed to install PyTorch with CUDA support: ${e}`)
+      const errorLogInfo =
+        osType === OSTypes.MacOS
+          ? 'Failed to install PyTorch'
+          : 'Failed to install PyTorch with CUDA support'
+      LogHelper.error(`${errorLogInfo}: ${e}`)
       process.exit(1)
     }
   }

@@ -44,6 +44,8 @@ def load_spacy_model() -> None:
 
     tic = time.perf_counter()
     log(f'Loading {model} spaCy model...')
+    # Use CPU to leave more GPU VRAM for other matters
+    spacy.require_cpu()
     spacy_nlp = spacy.load(model, exclude=exclude)
     log('spaCy model loaded')
     toc = time.perf_counter()
