@@ -13,6 +13,7 @@ import setupLLM from './setup-llm'
 import setupBinaries from './setup-binaries'
 import setupTCPServerModels from './setup-tcp-server-models'
 import createInstanceID from './create-instance-id'
+import setFfprobePermissions from './set-ffprobe-permissions'
 
 // Do not load ".env" file because it is not created yet
 
@@ -38,6 +39,7 @@ import createInstanceID from './create-instance-id'
     await generateJSONSchemas()
     LoaderHelper.start()
     await train()
+    await setFfprobePermissions()
     await createInstanceID()
 
     LogHelper.default('')

@@ -1,7 +1,7 @@
 import path from 'node:path'
 import fs from 'node:fs'
 
-import { path as ffmpegPath } from '@ffmpeg-installer/ffmpeg'
+import ffmpegStatic from 'ffmpeg-static'
 import ffmpeg from 'fluent-ffmpeg'
 
 import { TMP_PATH } from '@/constants'
@@ -43,7 +43,7 @@ export default class ASR {
             return
           }
 
-          ffmpeg.setFfmpegPath(ffmpegPath)
+          ffmpeg.setFfmpegPath(ffmpegStatic as string)
 
           /**
            * Encode WebM file to WAVE file

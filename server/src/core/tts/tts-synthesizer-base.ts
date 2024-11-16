@@ -1,5 +1,5 @@
+import ffmpegStatic from 'ffmpeg-static'
 import ffmpeg from 'fluent-ffmpeg'
-import { path as ffmpegPath } from '@ffmpeg-installer/ffmpeg'
 import { path as ffprobePath } from '@ffprobe-installer/ffprobe'
 
 import type { LongLanguageCode } from '@/types'
@@ -15,7 +15,7 @@ export abstract class TTSSynthesizerBase {
   ): Promise<SynthesizeResult | null>
 
   protected async getAudioDuration(audioFilePath: string): Promise<number> {
-    ffmpeg.setFfmpegPath(ffmpegPath)
+    ffmpeg.setFfmpegPath(ffmpegStatic as string)
     ffmpeg.setFfprobePath(ffprobePath)
 
     // Use ffprobe to get the duration of the audio file and return the duration in milliseconds
