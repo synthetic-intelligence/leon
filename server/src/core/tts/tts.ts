@@ -5,7 +5,7 @@ import fs from 'node:fs'
 import type { ShortLanguageCode } from '@/types'
 import type { TTSSynthesizer } from '@/core/tts/types'
 import { BRAIN, SOCKET_SERVER } from '@/core'
-import { TTS_PROVIDER, VOICE_CONFIG_PATH } from '@/constants'
+import { SERVER_CORE_PATH, TTS_PROVIDER, VOICE_CONFIG_PATH } from '@/constants'
 import { TTSSynthesizers, TTSProviders } from '@/core/tts/types'
 import { LogHelper } from '@/helpers/log-helper'
 import { LangHelper } from '@/helpers/lang-helper'
@@ -81,7 +81,8 @@ export default class TTS {
       // Dynamically attribute the synthesizer
       const { default: synthesizer } = await import(
         path.join(
-          __dirname,
+          SERVER_CORE_PATH,
+          'tts',
           'synthesizers',
           PROVIDERS_MAP[TTS_PROVIDER as TTSProviders]
         )

@@ -3,7 +3,7 @@ import path from 'node:path'
 import crypto from 'node:crypto'
 
 import dotenv from 'dotenv'
-import { prompt } from 'inquirer'
+import inquirer from 'inquirer'
 
 import { LogHelper } from '@/helpers/log-helper'
 import { StringHelper } from '@/helpers/string-helper'
@@ -58,7 +58,7 @@ export default () =>
       ) {
         await generateHTTPAPIKey()
       } else if (!process.env.IS_DOCKER) {
-        const answer = await prompt({
+        const answer = await inquirer.prompt({
           type: 'confirm',
           name: 'generate.httpAPIKey',
           message: 'Do you want to regenerate the HTTP API key?',

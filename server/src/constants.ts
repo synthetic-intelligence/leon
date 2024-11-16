@@ -44,6 +44,7 @@ export const SERVER_PATH = path.join(
   IS_PRODUCTION_ENV ? 'dist' : 'src'
 )
 export const TMP_PATH = path.join(SERVER_PATH, 'tmp')
+export const SERVER_CORE_PATH = path.join(SERVER_PATH, 'core')
 export const LEON_FILE_PATH = path.join(process.cwd(), 'leon.json')
 
 /**

@@ -1,6 +1,6 @@
 import path from 'node:path'
 
-import { prompt } from 'inquirer'
+import inquirer from 'inquirer'
 import { command } from 'execa'
 
 import {
@@ -41,7 +41,7 @@ BUILD_TARGETS.set('tcp-server', {
     BUILD_TARGETS.get(givenReleaseTarget)
 
   LoaderHelper.stop()
-  const answer = await prompt({
+  const answer = await inquirer.prompt({
     type: 'confirm',
     name: 'binary.bumped',
     message: `Have you bumped the version number of the binary from the "${versionFilePath}" file?`,

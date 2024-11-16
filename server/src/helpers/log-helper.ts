@@ -5,10 +5,7 @@ import { DateHelper } from '@/helpers/date-helper'
 
 export class LogHelper {
   static readonly ERRORS_FILE_PATH = path.join(
-    __dirname,
-    '..',
-    '..',
-    '..',
+    process.cwd(),
     'logs',
     'errors.log'
   )

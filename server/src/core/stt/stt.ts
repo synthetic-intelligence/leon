@@ -3,7 +3,7 @@ import path from 'node:path'
 
 import type { ASRAudioFormat } from '@/core/asr/types'
 import type { STTParser } from '@/core/stt/types'
-import { STT_PROVIDER, VOICE_CONFIG_PATH } from '@/constants'
+import { SERVER_CORE_PATH, STT_PROVIDER, VOICE_CONFIG_PATH } from '@/constants'
 import { SOCKET_SERVER, ASR } from '@/core'
 import { STTParserNames, STTProviders } from '@/core/stt/types'
 import { LogHelper } from '@/helpers/log-helper'
@@ -75,7 +75,8 @@ export default class STT {
       // Dynamically attribute the parser
       const { default: parser } = await import(
         path.join(
-          __dirname,
+          SERVER_CORE_PATH,
+          'stt',
           'parsers',
           PROVIDERS_MAP[STT_PROVIDER as STTProviders]
         )

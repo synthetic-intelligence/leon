@@ -25,8 +25,11 @@ export default () =>
       'PUT',
       'OPTIONS'
     ]
-    const outputFile = '/core/skills-endpoints.json'
-    const outputFilePath = path.join(__dirname, `../..${outputFile}`)
+    const outputFilePath = path.join(
+      process.cwd(),
+      'core',
+      'skills-endpoints.json'
+    )
     const lang = langs[process.env.LEON_HTTP_API_LANG].short
 
     try {
@@ -67,7 +70,7 @@ export default () =>
           }
 
           if (i + 1 === skillDomains.size) {
-            LogHelper.success(`${outputFile} is already up-to-date`)
+            LogHelper.success(`${outputFilePath} is already up-to-date`)
             isFileNeedToBeGenerated = false
           }
 
@@ -145,16 +148,16 @@ export default () =>
           }
         }
 
-        LogHelper.info(`Writing ${outputFile} file...`)
+        LogHelper.info(`Writing ${outputFilePath} file...`)
         try {
           await fs.promises.writeFile(
             outputFilePath,
             JSON.stringify(finalObj, null, 2)
           )
-          LogHelper.success(`${outputFile} file generated`)
+          LogHelper.success(`${outputFilePath} file generated`)
           resolve()
         } catch (e) {
-          reject(`Failed to generate ${outputFile} file: ${e.message}`)
+          reject(`Failed to generate ${outputFilePath} file: ${e.message}`)
         }
       }
     } catch (e) {

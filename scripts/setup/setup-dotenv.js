@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 
-import { prompt } from 'inquirer'
+import inquirer from 'inquirer'
 
 import { LogHelper } from '@/helpers/log-helper'
 
@@ -24,7 +24,7 @@ export default () =>
     } else if (process.env.IS_DOCKER === 'true') {
       resolve()
     } else {
-      const answer = await prompt({
+      const answer = await inquirer.prompt({
         type: 'confirm',
         name: 'dotenv.overwrite',
         message: '.env file already exists, overwrite:',
