@@ -46,6 +46,8 @@ class Widget(ABC, Generic[T]):
     def __init__(self, options: WidgetOptions[T]):
         if options.wrapper_props:
             self.wrapper_props = options.wrapper_props
+        else:
+            self.wrapper_props = None
         self.action_name = f"{INTENT_OBJECT['domain']}:{INTENT_OBJECT['skill']}:{INTENT_OBJECT['action']}"
         self.params = options.params
         self.widget = self.__class__.__name__
@@ -54,6 +56,8 @@ class Widget(ABC, Generic[T]):
                 'widgetId': options.on_fetch.get('widget_id'),
                 'actionName': f"{INTENT_OBJECT['domain']}:{INTENT_OBJECT['skill']}:{options.on_fetch.get('action_name')}"
             }
+        else:
+            self.on_fetch = None
         self.id = options.on_fetch.get('widget_id') if options.on_fetch \
             else f"{self.widget.lower()}-{''.join(random.choices(string.ascii_lowercase + string.digits, k=8))}"
 
