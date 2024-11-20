@@ -103,8 +103,6 @@ export type NLUSlots = Record<string, NLUSlot>
  * NER types
  */
 
-/* eslint-disable @typescript-eslint/no-empty-interface */
-
 export const BUILT_IN_ENTITY_TYPES = [
   'number',
   'ip',
@@ -178,10 +176,10 @@ interface Entity<
  * Built-in entity types
  */
 
-export interface BuiltInEntity<
+export type BuiltInEntity<
   Type extends BuiltInEntityType,
   Resolution extends Record<string, unknown>
-> extends Entity<Type, Resolution> {}
+> = Entity<Type, Resolution>
 
 export type BuiltInNumberEntity = BuiltInEntity<
   'number',
@@ -360,10 +358,10 @@ export type BuiltInTemperatureEntity = BuiltInEntity<
  * Custom entity types
  */
 
-interface CustomEntity<
+type CustomEntity<
   Type extends CustomEntityType | SpacyEntityType,
   Resolution extends Record<string, unknown> = { value: string }
-> extends Entity<Type, Resolution, string> {}
+> = Entity<Type, Resolution, string>
 
 export interface CustomEnumEntity<
   Type extends CustomEntityType | SpacyEntityType = 'enum',
@@ -375,7 +373,7 @@ export interface CustomEnumEntity<
   alias?: string
 }
 type GlobalEntity = CustomEnumEntity
-export interface CustomRegexEntity extends CustomEntity<'regex'> {}
+export type CustomRegexEntity = CustomEntity<'regex'>
 interface CustomTrimEntity extends CustomEntity<'trim'> {
   subtype:
     | 'between'
@@ -409,32 +407,30 @@ interface SpacyLocationCountryData {
   currencycode: string
   phone: string
 }
-export interface SpacyLocationCountryEntity
-  extends SpacyEntity<
-    'location:country',
-    {
-      value: string
-      data: SpacyLocationCountryData
+export type SpacyLocationCountryEntity = SpacyEntity<
+  'location:country',
+  {
+    value: string
+    data: SpacyLocationCountryData
+  }
+>
+export type SpacyLocationCityEntity = SpacyEntity<
+  'location:city',
+  {
+    value: string
+    data: {
+      name: string
+      latitude: number
+      longitude: number
+      countrycode: string
+      country: SpacyLocationCountryData
+      population: number
+      timezone: string
     }
-  > {}
-export interface SpacyLocationCityEntity
-  extends SpacyEntity<
-    'location:city',
-    {
-      value: string
-      data: {
-        name: string
-        latitude: number
-        longitude: number
-        countrycode: string
-        country: SpacyLocationCountryData
-        population: number
-        timezone: string
-      }
-    }
-  > {}
-export interface SpacyPersonEntity extends SpacyEntity<'person'> {}
-export interface SpacyOrganizationEntity extends SpacyEntity<'organization'> {}
+  }
+>
+export type SpacyPersonEntity = SpacyEntity<'person'>
+export type SpacyOrganizationEntity = SpacyEntity<'organization'>
 
 /**
  * Exported entity types

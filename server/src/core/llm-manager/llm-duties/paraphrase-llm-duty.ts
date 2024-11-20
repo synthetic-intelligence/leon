@@ -21,7 +21,7 @@ import { LLMProviders, LLMDuties } from '@/core/llm-manager/types'
 import { LLM_PROVIDER as LLM_PROVIDER_NAME } from '@/constants'
 import { StringHelper } from '@/helpers/string-helper'
 
-interface ParaphraseLLMDutyParams extends LLMDutyParams {}
+type ParaphraseLLMDutyParams = LLMDutyParams
 
 export class ParaphraseLLMDuty extends LLMDuty {
   private static instance: ParaphraseLLMDuty

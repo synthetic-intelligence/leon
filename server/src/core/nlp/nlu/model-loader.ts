@@ -86,7 +86,7 @@ export default class ModelLoader {
         } catch (e) {
           reject(
             new Error(
-              'An error occurred while loading the global resolvers NLP model'
+              `An error occurred while loading the global resolvers NLP model. Details: ${e}`
             )
           )
         }
@@ -127,7 +127,7 @@ export default class ModelLoader {
         } catch (e) {
           reject(
             new Error(
-              'An error occurred while loading the skills resolvers NLP model'
+              `An error occurred while loading the skills resolvers NLP model. Details: ${e}`
             )
           )
         }
@@ -174,7 +174,9 @@ export default class ModelLoader {
           resolve()
         } catch (e) {
           reject(
-            new Error('An error occurred while loading the main NLP model')
+            new Error(
+              `An error occurred while loading the main NLP model. Details: ${e}`
+            )
           )
         }
       }

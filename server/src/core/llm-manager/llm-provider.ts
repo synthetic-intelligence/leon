@@ -78,7 +78,7 @@ export default class LLMProvider {
         SERVER_CORE_PATH,
         'llm-manager',
         'llm-providers',
-        LLM_PROVIDERS_MAP[LLM_PROVIDER as LLMProviders]
+        `${LLM_PROVIDERS_MAP[LLM_PROVIDER as LLMProviders]}.js`
       )
     )
     this.llmProvider = new provider()

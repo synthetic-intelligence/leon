@@ -3,7 +3,7 @@ import path from 'node:path'
 
 import dotenv from 'dotenv'
 
-import { langs } from '@@/core/langs.json'
+import { LANG_CONFIGS } from '@/constants.js'
 import { LogHelper } from '@/helpers/log-helper'
 import { SkillDomainHelper } from '@/helpers/skill-domain-helper'
 
@@ -30,7 +30,7 @@ export default () =>
       'core',
       'skills-endpoints.json'
     )
-    const lang = langs[process.env.LEON_HTTP_API_LANG].short
+    const lang = LANG_CONFIGS[process.env.LEON_HTTP_API_LANG].short
 
     try {
       const skillDomains = await SkillDomainHelper.getSkillDomains()

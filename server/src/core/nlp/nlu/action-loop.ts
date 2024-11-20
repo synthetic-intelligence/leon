@@ -181,6 +181,9 @@ export class ActionLoop {
 
         return processedData
       } catch (e) {
+        LogHelper.title('Action Loop')
+        LogHelper.warning(`Failed to execute action loop: ${e}`)
+
         return null
       }
     }

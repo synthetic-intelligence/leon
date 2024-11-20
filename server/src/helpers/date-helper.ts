@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
-import utc from 'dayjs/plugin/utc'
-import timezone from 'dayjs/plugin/timezone'
+import utc from 'dayjs/plugin/utc.js'
+import timezone from 'dayjs/plugin/timezone.js'
 
 import { TIME_ZONE } from '@/constants'
 import { LogHelper } from '@/helpers/log-helper'
@@ -39,7 +39,7 @@ export class DateHelper {
         timeZone = TIME_ZONE
       } catch (e) {
         LogHelper.warning(
-          `The time zone "${TIME_ZONE}" is not valid. Falling back to "${timeZone}"`
+          `The time zone "${TIME_ZONE}" is not valid. Falling back to "${timeZone}". Details: ${e}`
         )
       }
     }

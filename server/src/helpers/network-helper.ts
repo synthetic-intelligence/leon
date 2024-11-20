@@ -13,6 +13,7 @@ export class NetworkHelper {
       await axios.head(HUGGING_FACE_URL)
 
       return true
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e) {
       return false
     }

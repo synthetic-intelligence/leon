@@ -21,12 +21,12 @@ import type {
 } from '@/core/brain/types'
 import type { AnswerOutput } from '@sdk/types'
 import { SkillActionTypes, SkillBridges } from '@/core/brain/types'
-import { langs } from '@@/core/langs.json'
 import {
   HAS_TTS,
   PYTHON_BRIDGE_BIN_PATH,
   NODEJS_BRIDGE_BIN_PATH,
-  TMP_PATH
+  TMP_PATH,
+  LANG_CONFIGS
 } from '@/constants'
 import {
   CONVERSATION_LOGGER,
@@ -387,7 +387,7 @@ export default class Brain {
   private shouldAskToRepeat(nluResult: NLUResult): boolean {
     return (
       nluResult.classification.confidence <
-      langs[LangHelper.getLongCode(this._lang)].min_confidence
+      LANG_CONFIGS[LangHelper.getLongCode(this._lang)].min_confidence
     )
   }
 
@@ -481,7 +481,7 @@ export default class Brain {
       }
     } catch (e) {
       LogHelper.title('Brain')
-      LogHelper.debug(`process.stdout: ${String(data)}`)
+      LogHelper.debug(`process.stdout: ${String(data)}. Details: ${e}`)
     }
   }
 

@@ -369,7 +369,7 @@ SPACY_MODELS.set('fr', {
 
       LogHelper.success('All spaCy models are already installed')
     } catch (e) {
-      LogHelper.info('Not all spaCy models are installed')
+      LogHelper.info(`Not all spaCy models are installed. Details: ${e}`)
       await installSpacyModels()
     }
   }

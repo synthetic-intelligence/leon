@@ -1,5 +1,5 @@
-import { langs } from '@@/core/langs.json'
 import type { LongLanguageCode, ShortLanguageCode } from '@/types'
+import { LANG_CONFIGS } from '@/constants'
 
 export class LangHelper {
   /**
@@ -7,9 +7,9 @@ export class LangHelper {
    * @example getShortCodes() // ["en", "fr"]
    */
   public static getShortCodes(): ShortLanguageCode[] {
-    const longLanguages = Object.keys(langs) as LongLanguageCode[]
+    const longLanguages = Object.keys(LANG_CONFIGS) as LongLanguageCode[]
 
-    return longLanguages.map((lang) => langs[lang].short)
+    return longLanguages.map((lang) => LANG_CONFIGS[lang].short)
   }
 
   /**
@@ -18,9 +18,9 @@ export class LangHelper {
    * @example getLongCode('en') // en-US
    */
   public static getLongCode(shortCode: ShortLanguageCode): LongLanguageCode {
-    for (const longLanguage in langs) {
+    for (const longLanguage in LANG_CONFIGS) {
       const longLanguageType = longLanguage as LongLanguageCode
-      const lang = langs[longLanguageType]
+      const lang = LANG_CONFIGS[longLanguageType]
 
       if (lang.short === shortCode) {
         return longLanguageType
@@ -36,7 +36,7 @@ export class LangHelper {
    * @example getShortCode('en-US') // en
    */
   public static getShortCode(longCode: LongLanguageCode): ShortLanguageCode {
-    return langs[longCode].short
+    return LANG_CONFIGS[longCode].short
   }
 
   /**
@@ -45,6 +45,7 @@ export class LangHelper {
    * @example getActionLoopStopWords('en-US') // ["stop", "break", "exit"]
    */
   public static getActionLoopStopWords(shortCode: ShortLanguageCode): string[] {
-    return langs[LangHelper.getLongCode(shortCode)].action_loop_stop_words
+    return LANG_CONFIGS[LangHelper.getLongCode(shortCode)]
+      .action_loop_stop_words
   }
 }

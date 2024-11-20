@@ -5,7 +5,7 @@
     "outDir": "./server/dist",
     "baseUrl": ".",
     "moduleResolution": "Node",
-    "module": "CommonJS",
+    "module": "ESNext",
     "jsx": "react",
     "paths": {
       "@@/*": ["./*"],

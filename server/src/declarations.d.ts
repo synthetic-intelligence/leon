@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-types */
-
 declare module '@ffprobe-installer/ffprobe' {
   export const path: string
 }
@@ -19,7 +17,8 @@ interface LangAll {
 }
 
 declare module '@nlpjs/core-loader' {
-  export const containerBootstrap: Function
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  export const containerBootstrap: () => Promise<any>
 }
 declare module '@nlpjs/nlp' {
   export const Nlp: Nlp

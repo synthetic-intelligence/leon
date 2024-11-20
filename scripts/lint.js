@@ -20,10 +20,10 @@ const globs = [
 const src = globs.join(' ')
 
 async function prettier() {
-  await command('prettier --write . --ignore-path .gitignore', {
+  await command('prettier --write . --ignore-pattern .gitignore', {
     shell: true
   })
-  await command(`prettier --check ${src} --ignore-path .gitignore`, {
+  await command(`prettier --check ${src} --ignore-pattern .gitignore`, {
     shell: true,
     stdio: 'inherit'
   })
@@ -39,7 +39,7 @@ async function prettier() {
   try {
     await Promise.all([
       prettier(),
-      command(`eslint ${src} --ignore-path .gitignore`, {
+      command(`eslint ${src} --ignore-pattern .gitignore`, {
         shell: true,
         stdio: 'inherit'
       })

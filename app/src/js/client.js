@@ -441,7 +441,6 @@ export default class Client {
       const voiceContainer = document.querySelector('#voice-container')
       if (voiceContainer) {
         voiceContainer.style.animation = 'none'
-        voiceContainer.offsetHeight
         voiceContainer.style.animation = null
       }
 

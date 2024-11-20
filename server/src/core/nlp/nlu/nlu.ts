@@ -12,8 +12,7 @@ import type {
   NLPUtterance,
   NLUResult
 } from '@/core/nlp/types'
-import { langs } from '@@/core/langs.json'
-import { PYTHON_TCP_SERVER_BIN_PATH } from '@/constants'
+import { LANG_CONFIGS, PYTHON_TCP_SERVER_BIN_PATH } from '@/constants'
 import {
   PYTHON_TCP_CLIENT,
   BRAIN,
@@ -353,6 +352,7 @@ export default class NLU {
           if (Object.keys(this.conversation.activeContext.slots).length > 0) {
             try {
               return resolve(await SlotFilling.handle(utterance))
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
             } catch (e) {
               return reject({})
             }
@@ -395,7 +395,7 @@ export default class NLU {
 
         if (intent === 'None') {
           const fallback = this.fallback(
-            langs[LangHelper.getLongCode(locale)].fallbacks
+            LANG_CONFIGS[LangHelper.getLongCode(locale)].fallbacks
           )
 
           if (!fallback) {
@@ -458,6 +458,7 @@ export default class NLU {
         ) {
           try {
             return resolve(await SlotFilling.handle(utterance))
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
           } catch (e) {
             return reject({})
           }

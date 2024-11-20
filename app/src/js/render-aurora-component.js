@@ -9,13 +9,11 @@ export default function renderAuroraComponent(
   supportedEvents
 ) {
   if (component) {
-    // eslint-disable-next-line import/namespace
     let reactComponent = auroraComponents[component.component]
     /**
      * Find custom component if a former component is not found
      */
     if (!reactComponent) {
-      // eslint-disable-next-line import/namespace
       reactComponent = customAuroraComponents[component.component]
     }
 

@@ -50,7 +50,8 @@ export class SkillDomainHelper {
         if ((await fs.promises.stat(domainPath)).isDirectory()) {
           const skills: SkillDomain['skills'] = {}
           const { name: domainName } = (await import(
-            path.join(domainPath, 'domain.json')
+            path.join(domainPath, 'domain.json'),
+            { with: { type: 'json' } }
           )) as DomainSchema
           const skillFolders = await fs.promises.readdir(domainPath)
           const domainPathParts = domainPath.split('/')

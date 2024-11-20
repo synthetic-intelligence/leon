@@ -101,7 +101,7 @@ BUILD_TARGETS.set('tcp-server', {
     const installPatchelfCommand = 'sudo apt install patchelf'
 
     LogHelper.error(
-      `The "patchelf" utility is not installed. Please run the following command: "${installPatchelfCommand}" or install it via a packages manager supported by your Linux distribution such as DNF, YUM, etc. Then try again`
+      `The "patchelf" utility is not installed. Please run the following command: "${installPatchelfCommand}" or install it via a packages manager supported by your Linux distribution such as DNF, YUM, etc. Then try again. Details: ${e}`
     )
     process.exit(1)
   }
