@@ -17,7 +17,7 @@ _<p align="center">Your open-source personal assistant.</p>_
   <a href="https://github.com/leon-ai/leon/actions/workflows/tests.yml"><img src="https://github.com/leon-ai/leon/actions/workflows/tests.yml/badge.svg?branch=develop" /></a>
   <a href="https://github.com/leon-ai/leon/actions/workflows/lint.yml"><img src="https://github.com/leon-ai/leon/actions/workflows/lint.yml/badge.svg?branch=develop" /></a>
   <br>
-  <a href="https://discord.gg/MNQqqKg"><img src="https://svgshare.com/i/V09.svg"/></a>
+  <a href="https://discord.gg/MNQqqKg"><img src="https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white" /></a>
 </p>
 
 <p align="center">
@@ -158,6 +158,12 @@ leon start
 ## 📚 Documentation
 
 For full documentation, visit [docs.getleon.ai](https://docs.getleon.ai).
+
+## 🇫🇷 Documenting the Journey on YouTube
+
+[I'm documenting the journey on YouTube](https://www.youtube.com/@louisgyt) in developing our dear Leon. I also take you along in my daily life here in China.
+
+For non-French speakers, auto-translated English subtitles are available.
 
 ## 📺 Video
 
