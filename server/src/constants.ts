@@ -309,10 +309,6 @@ export const LLM_HF_DOWNLOAD_URL =
 /*export const LLM_HF_DOWNLOAD_URL =
   'https://huggingface.co/bartowski/Meta-Llama-3-8B-Instruct-GGUF/resolve/main/Meta-Llama-3-8B-Instruct-Q4_K_S.gguf?download=true'
 */
-/**
- * @see llama.cpp releases: https://github.com/ggerganov/llama.cpp/releases
- */
-export const LLM_LLAMA_CPP_RELEASE_TAG = 'b4291'
 
 /**
  * Misc

@@ -2,8 +2,6 @@ import fs from 'node:fs'
 import path from 'node:path'
 import stream from 'node:stream'
 
-import { command } from 'execa'
-
 import {
   LLM_NAME,
   LLM_NAME_WITH_VERSION,
@@ -11,10 +9,8 @@ import {
   LLM_DIR_PATH,
   LLM_PATH,
   LLM_VERSION,
-  LLM_HF_DOWNLOAD_URL,
-  LLM_LLAMA_CPP_RELEASE_TAG
+  LLM_HF_DOWNLOAD_URL
 } from '@/constants'
-import { OSTypes, CPUArchitectures } from '@/types'
 import { SystemHelper } from '@/helpers/system-helper'
 import { LogHelper } from '@/helpers/log-helper'
 import { FileHelper } from '@/helpers/file-helper'
@@ -25,8 +21,7 @@ import { NetworkHelper } from '@/helpers/network-helper'
  * 1. Check minimum hardware requirements
  * 2. Check if Hugging Face is accessible
  * 3. Download the latest LLM from Hugging Face or mirror
- * 4. Download and compile the latest llama.cpp release
- * 5. Create manifest file
+ * 4. Create manifest file
  */
 
 const LLM_MANIFEST_PATH = path.join(LLM_DIR_PATH, 'manifest.json')
@@ -116,76 +111,6 @@ async function downloadLLM() {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-async function downloadAndCompileLlamaCPP() {
-  const { type: osType, cpuArchitecture } = SystemHelper.getInformation()
-
-  try {
-    LogHelper.info(
-      `Downloading and compiling "${LLM_LLAMA_CPP_RELEASE_TAG}" llama.cpp release...`
-    )
-
-    if (manifest?.llamaCPPVersion) {
-      LogHelper.info(`Found llama.cpp ${manifest.llamaCPPVersion}`)
-      LogHelper.info(`Latest version is ${LLM_LLAMA_CPP_RELEASE_TAG}`)
-    }
-
-    if (!manifest || manifest?.llamaCPPVersion !== LLM_LLAMA_CPP_RELEASE_TAG) {
-      if (manifest?.llamaCPPVersion !== LLM_LLAMA_CPP_RELEASE_TAG) {
-        LogHelper.info(`Updating llama.cpp to ${LLM_LLAMA_CPP_RELEASE_TAG}...`)
-      }
-
-      let llamaCPPDownloadCommand = `npx --no node-llama-cpp source download --release "${LLM_LLAMA_CPP_RELEASE_TAG}"`
-
-      if (
-        osType === OSTypes.MacOS &&
-        cpuArchitecture === CPUArchitectures.X64
-      ) {
-        // llamaCPPDownloadCommand = `${llamaCPPDownloadCommand} --no-metal`
-
-        LogHelper.info(`macOS Intel chipset detected, Metal support disabled`)
-      }
-
-      await command(llamaCPPDownloadCommand, {
-        shell: true,
-        stdio: 'inherit'
-      })
-
-      await FileHelper.createManifestFile(
-        LLM_MANIFEST_PATH,
-        LLM_NAME,
-        LLM_VERSION,
-        {
-          llamaCPPVersion: LLM_LLAMA_CPP_RELEASE_TAG
-        }
-      )
-      LogHelper.success('Manifest file updated')
-
-      LogHelper.success(`llama.cpp downloaded and compiled`)
-      LogHelper.success('The LLM is ready to go')
-    } else {
-      LogHelper.success(
-        `llama.cpp is already set up and use the latest version (${LLM_LLAMA_CPP_RELEASE_TAG})`
-      )
-    }
-  } catch (e) {
-    LogHelper.error(`Failed to set up llama.cpp: ${e}`)
-
-    if (
-      osType === OSTypes.MacOS &&
-      cpuArchitecture === CPUArchitectures.ARM64
-    ) {
-      LogHelper.error(
-        `Please verify that the Metal developer tools for macOS are installed.\n
-        You can verify by running the following command in your terminal: xcode-select --install\n
-        Otherwise download them here and retry: https://developer.apple.com/xcode/`
-      )
-    }
-
-    process.exit(1)
-  }
-}
-
 export default async () => {
   const canSetupLLM = await checkMinimumHardwareRequirements()
 
@@ -203,7 +128,6 @@ export default async () => {
     )
   } else {
     await downloadLLM()
-    // Stop compiling from source since node-llama-cpp already ships with binaries
-    // await downloadAndCompileLlamaCPP()
+    // Stopped compiling from source since node-llama-cpp already ships with binaries
   }
 }
