@@ -116,6 +116,7 @@ async function downloadLLM() {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function downloadAndCompileLlamaCPP() {
   const { type: osType, cpuArchitecture } = SystemHelper.getInformation()
 
@@ -202,6 +203,7 @@ export default async () => {
     )
   } else {
     await downloadLLM()
-    await downloadAndCompileLlamaCPP()
+    // Stop compiling from source since node-llama-cpp already ships with binaries
+    // await downloadAndCompileLlamaCPP()
   }
 }
