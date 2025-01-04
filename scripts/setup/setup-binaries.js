@@ -1,6 +1,5 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import stream from 'node:stream'
 
 import { command } from 'execa'
 import extractZip from 'extract-zip'
@@ -105,15 +104,9 @@ const setupBinaries = async (key) => {
     try {
       LogHelper.info(`Downloading ${name}...`)
 
-      const archiveWriter = fs.createWriteStream(archivePath)
       const latestReleaseAssetURL = `${GITHUB_URL}/releases/download/${key}_v${version}/${archiveName}`
-      const { data } = await FileHelper.downloadFile(
-        latestReleaseAssetURL,
-        'stream'
-      )
 
-      data.pipe(archiveWriter)
-      await stream.promises.finished(archiveWriter)
+      await FileHelper.downloadFile(latestReleaseAssetURL, archivePath)
 
       LogHelper.success(`${name} downloaded`)
       LogHelper.info(`Extracting ${name}...`)

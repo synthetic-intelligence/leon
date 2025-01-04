@@ -1,6 +1,5 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import stream from 'node:stream'
 
 import {
   LLM_NAME,
@@ -80,11 +79,7 @@ async function downloadLLM() {
         `Downloading ${LLM_NAME_WITH_VERSION} from ${llmDownloadURL}...`
       )
 
-      const llmWriter = fs.createWriteStream(LLM_PATH)
-      const response = await FileHelper.downloadFile(llmDownloadURL, 'stream')
-
-      response.data.pipe(llmWriter)
-      await stream.promises.finished(llmWriter)
+      await FileHelper.downloadFile(llmDownloadURL, LLM_PATH)
 
       await FileHelper.createManifestFile(
         LLM_MANIFEST_PATH,

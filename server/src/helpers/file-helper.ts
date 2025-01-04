@@ -1,46 +1,48 @@
-import readline from 'node:readline'
 import fs from 'node:fs'
 
-import axios, {
-  type AxiosResponse,
-  type ResponseType as AxiosResponseType
-} from 'axios'
-import prettyBytes from 'pretty-bytes'
-import prettyMilliseconds from 'pretty-ms'
+import { downloadFile as ipullDownloadFile } from 'ipull'
+
+interface DownloadFileOptions {
+  cliProgress?: boolean
+  parallelStreams?: number
+  skipExisting?: boolean
+}
 
 export class FileHelper {
   /**
    * Download file
    * @param fileURL The file URL to download
-   * @param responseType The Axios request response type
-   * @example downloadFile('https://example.com/file.zip', 'arraybuffer') // ArrayBuffer
+   * @param destinationPath The destination path to save the file
+   * @param options The download options
+   * @example downloadFile('https://example.com/file.zip', 'output/dir/file.zip', { cliProgress: true, parallelStreams: 3 })
    */
-  public static downloadFile(
+  public static async downloadFile(
     fileURL: string,
-    responseType: AxiosResponseType
-  ): Promise<AxiosResponse> {
-    return axios.get(fileURL, {
-      responseType,
-      onDownloadProgress: ({ loaded, total, progress, estimated, rate }) => {
-        const percentage = Math.floor(Number(progress) * 100)
-        const downloadedSize = prettyBytes(loaded)
-        const totalSize = prettyBytes(Number(total))
-        const estimatedTime = !estimated
-          ? 0
-          : prettyMilliseconds(estimated * 1_000, { secondsDecimalDigits: 0 })
-        const downloadRate = !rate ? 0 : prettyBytes(rate)
+    destinationPath: string,
+    options?: DownloadFileOptions
+  ): Promise<void> {
+    options = {
+      cliProgress: true,
+      parallelStreams: 3,
+      skipExisting: false,
+      ...options
+    }
 
-        readline.clearLine(process.stdout, 0)
-        readline.cursorTo(process.stdout, 0)
-        process.stdout.write(
-          `Download progress: ${percentage}% (${downloadedSize}/${totalSize} | ${downloadRate}/s | ${estimatedTime} ETA)`
-        )
-
-        if (percentage === 100) {
-          process.stdout.write('\n')
-        }
-      }
+    const directory = destinationPath.substring(
+      0,
+      destinationPath.lastIndexOf('/')
+    )
+    const fileName = destinationPath.substring(
+      destinationPath.lastIndexOf('/') + 1
+    )
+    const downloader = await ipullDownloadFile({
+      url: fileURL,
+      directory: directory,
+      fileName: fileName,
+      ...options
     })
+
+    return downloader.download()
   }
 
   /**

@@ -1,6 +1,5 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import stream from 'node:stream'
 
 import {
   PYTHON_TCP_SERVER_TTS_BERT_BASE_DIR_PATH,
@@ -41,7 +40,7 @@ async function installTTSModel() {
   try {
     LogHelper.info('Installing TTS model...')
 
-    const destPath = fs.createWriteStream(PYTHON_TCP_SERVER_TTS_MODEL_PATH)
+    const destPath = PYTHON_TCP_SERVER_TTS_MODEL_PATH
 
     LogHelper.info(`Downloading TTS model...`)
 
@@ -50,15 +49,9 @@ async function installTTSModel() {
         PYTHON_TCP_SERVER_TTS_MODEL_HF_DOWNLOAD_URL
       )
 
-    const response = await FileHelper.downloadFile(
-      pythonTCPServerTTSModelDownloadURL,
-      'stream'
-    )
+    await FileHelper.downloadFile(pythonTCPServerTTSModelDownloadURL, destPath)
 
-    response.data.pipe(destPath)
-    await stream.promises.finished(destPath)
-
-    LogHelper.success(`TTS model downloaded at ${destPath.path}`)
+    LogHelper.success(`TTS model downloaded at ${destPath}`)
   } catch (e) {
     LogHelper.error(`Failed to install TTS model: ${e}`)
     process.exit(1)
@@ -74,20 +67,16 @@ async function installASRModel() {
           PYTHON_TCP_SERVER_ASR_MODEL_HF_PREFIX_DOWNLOAD_URL
         )
       const modelInstallationFileURL = `${pythonTCPServerASRModelDownloadURL}/${modelFile}?download=true`
-      const destPath = fs.createWriteStream(
-        path.join(PYTHON_TCP_SERVER_ASR_MODEL_DIR_PATH, modelFile)
+      const destPath = path.join(
+        PYTHON_TCP_SERVER_ASR_MODEL_DIR_PATH,
+        modelFile
       )
 
       LogHelper.info(`Downloading ${modelFile}...`)
-      const response = await FileHelper.downloadFile(
-        modelInstallationFileURL,
-        'stream'
-      )
 
-      response.data.pipe(destPath)
-      await stream.promises.finished(destPath)
+      await FileHelper.downloadFile(modelInstallationFileURL, destPath)
 
-      LogHelper.success(`${modelFile} downloaded at ${destPath.path}`)
+      LogHelper.success(`${modelFile} downloaded at ${destPath}`)
     }
 
     LogHelper.success('ASR model installed')
@@ -105,20 +94,13 @@ async function installASRModel() {
         PYTHON_TCP_SERVER_TTS_BERT_FRENCH_MODEL_HF_PREFIX_DOWNLOAD_URL
       )
       const modelInstallationFileURL = `${pythonTCPServerTTSBERTFrenchModelPrefixDownloadURL}/${modelFile}?download=true`
-      const destPath = fs.createWriteStream(
-        path.join(PYTHON_TCP_SERVER_TTS_BERT_FRENCH_DIR_PATH, modelFile)
-      )
+      const destPath = path.join(PYTHON_TCP_SERVER_TTS_BERT_FRENCH_DIR_PATH, modelFile)
 
       LogHelper.info(`Downloading ${modelFile}...`)
-      const response = await FileHelper.downloadFile(
-        modelInstallationFileURL,
-        'stream'
-      )
 
-      response.data.pipe(destPath)
-      await stream.promises.finished(destPath)
+      await FileHelper.downloadFile(modelInstallationFileURL, destPath)
 
-      LogHelper.success(`${modelFile} downloaded at ${destPath.path}`)
+      LogHelper.success(`${modelFile} downloaded at ${destPath}`)
     }
 
     LogHelper.success('TTS BERT French model installed')
@@ -137,20 +119,16 @@ async function installTTSBERTBaseModel() {
           PYTHON_TCP_SERVER_TTS_BERT_BASE_MODEL_HF_PREFIX_DOWNLOAD_URL
         )
       const modelInstallationFileURL = `${pythonTCPServerTTSBERTBaseModelPrefixDownloadURL}/${modelFile}?download=true`
-      const destPath = fs.createWriteStream(
-        path.join(PYTHON_TCP_SERVER_TTS_BERT_BASE_DIR_PATH, modelFile)
+      const destPath = path.join(
+        PYTHON_TCP_SERVER_TTS_BERT_BASE_DIR_PATH,
+        modelFile
       )
 
       LogHelper.info(`Downloading ${modelFile}...`)
-      const response = await FileHelper.downloadFile(
-        modelInstallationFileURL,
-        'stream'
-      )
 
-      response.data.pipe(destPath)
-      await stream.promises.finished(destPath)
+      await FileHelper.downloadFile(modelInstallationFileURL, destPath)
 
-      LogHelper.success(`${modelFile} downloaded at ${destPath.path}`)
+      LogHelper.success(`${modelFile} downloaded at ${destPath}`)
     }
 
     LogHelper.success('TTS BERT base model installed')
